@@ -13,4 +13,8 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+
+    <php>
+        <const name="BASE_DIR" value="."/>
+    </php>
 </phpunit>
