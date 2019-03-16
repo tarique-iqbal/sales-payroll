@@ -10,6 +10,7 @@ use SalesPayroll\Service\CLIArgsService;
 use SalesPayroll\Service\CSVFileWriterService;
 use SalesPayroll\Validator\FileNameValidator;
 use SalesPayroll\SalesPayrollApplication;
+use SalesPayroll\Exception\ExceptionHandler;
 
 /**
  * Class ContainerFactory
@@ -71,6 +72,12 @@ class ContainerFactory
                 $c['CLIArgsService'],
                 $c['CSVFileWriterService'],
                 $c['FileNameValidator']
+            );
+        };
+
+        $container['ExceptionHandler'] = function ($c) {
+            return new ExceptionHandler(
+                $c['ConfigService']
             );
         };
 
