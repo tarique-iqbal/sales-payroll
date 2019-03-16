@@ -9,6 +9,7 @@ use SalesPayroll\Service\ConfigService;
 use SalesPayroll\Service\CLIArgsService;
 use SalesPayroll\Service\CSVFileWriterService;
 use SalesPayroll\Validator\FileNameValidator;
+use SalesPayroll\SalesPayrollApplication;
 
 /**
  * Class ContainerFactory
@@ -61,6 +62,15 @@ class ContainerFactory
             return new CSVFileWriterService(
                 $c['SalaryService'],
                 $c['BonusService']
+            );
+        };
+
+        $container['SalesPayrollApplication'] = function ($c) {
+            return new SalesPayrollApplication(
+                $c['ConfigService'],
+                $c['CLIArgsService'],
+                $c['CSVFileWriterService'],
+                $c['FileNameValidator']
             );
         };
 

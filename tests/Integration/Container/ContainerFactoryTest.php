@@ -11,6 +11,7 @@ use SalesPayroll\Service\ConfigService;
 use SalesPayroll\Service\CLIArgsService;
 use SalesPayroll\Service\CSVFileWriterService;
 use SalesPayroll\Validator\FileNameValidator;
+use SalesPayroll\SalesPayrollApplication;
 
 class ContainerFactoryTest extends TestCase
 {
@@ -27,5 +28,6 @@ class ContainerFactoryTest extends TestCase
         $this->assertInstanceOf(SalaryService::class, $container['SalaryService']);
         $this->assertInstanceOf(BonusService::class, $container['BonusService']);
         $this->assertInstanceOf(CSVFileWriterService::class, $container['CSVFileWriterService']);
+        $this->assertInstanceOf(SalesPayrollApplication::class, $container['SalesPayrollApplication']);
     }
 }
