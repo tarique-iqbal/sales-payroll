@@ -4,4 +4,4 @@
 /data
 !/data/.gitkeep
 /log
-!/log/.htaccess
+!/log/.gitkeep
