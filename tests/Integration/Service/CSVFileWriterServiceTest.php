@@ -2,6 +2,7 @@
 
 namespace SalesPayroll\Tests\Integration\Service;
 
+use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use SalesPayroll\Service\BonusService;
 use SalesPayroll\Service\ConfigService;
@@ -52,5 +53,25 @@ class CSVFileWriterServiceTest extends TestCase
         ini_set('display_errors', 'Off');
 
         $this->csvFileWriterService->writeFile($csvFile, $numberOfMonths, $today);
+    }
+
+    public function testWriteFileUsingVfsStream()
+    {
+        $numberOfMonths = 1;
+        $today = '01.12.2019';
+        $structure = [
+            'csv' => [
+
+            ]
+        ];
+
+        $root = vfsStream::setup(sys_get_temp_dir(), null, $structure);
+        $this->csvFileWriterService->writeFile($root->url() . '/csv/test-case.csv', $numberOfMonths, $today);
+
+        $this->assertTrue($root->hasChild('csv/test-case.csv'));
+        $this->assertSame(
+            "\"Month Name\",\"Salary Payment Date\",\"Bonus Payment Date\"\nJanuary,31.01.2020,19.02.2020\n",
+            $root->getChild('csv/test-case.csv')->getContent()
+        );
     }
 }
