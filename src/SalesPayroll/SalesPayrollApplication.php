@@ -17,9 +17,24 @@ class SalesPayrollApplication
 {
     const NUMBER_OF_MONTHS = 12;
 
+    /**
+     * @var ConfigServiceInterface
+     */
     private $configService;
+
+    /**
+     * @var CLIArgsServiceInterface
+     */
     private $cliArgsService;
+
+    /**
+     * @var FileWriterServiceInterface
+     */
     private $csvFileWriterService;
+
+    /**
+     * @var FileNameValidator
+     */
     private $fileNameValidator;
 
     /**
