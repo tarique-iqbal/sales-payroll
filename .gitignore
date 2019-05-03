@@ -3,5 +3,7 @@
 .DS_Store
 /data
 !/data/.gitkeep
-/log
-!/log/.gitkeep
+/var/*
+!/var/logs
+/var/logs/*
+!var/logs/.gitkeep
