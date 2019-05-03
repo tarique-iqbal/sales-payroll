@@ -2,7 +2,7 @@
 
 $config = [
     'data' => [
-        'directory'     => 'data'
+        'directory' => 'var/data'
     ],
     'error_log' => [
         'directory' => 'var/logs',
