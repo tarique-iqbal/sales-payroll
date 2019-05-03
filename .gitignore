@@ -1,9 +1,10 @@
 /vendor
 .idea
 .DS_Store
-/data
-!/data/.gitkeep
 /var/*
+!/var/data
+/var/data/*
+!var/data/.gitkeep
 !/var/logs
 /var/logs/*
 !var/logs/.gitkeep
