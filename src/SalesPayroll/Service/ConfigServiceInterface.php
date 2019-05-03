@@ -16,5 +16,5 @@ interface ConfigServiceInterface
     /**
      * @return string
      */
-    public function getLogFile(): string;
+    public function getErrorLogFile(): string;
 }

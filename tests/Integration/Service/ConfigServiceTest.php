@@ -28,9 +28,9 @@ class ConfigServiceTest extends TestCase
     {
         $logPath = BASE_DIR . '/' . $this->config['log']['directory'];
 
-        $logFile = $this->configService->getLogFile();
-        $expectedLogFile = BASE_DIR . '/' . $this->config['log']['directory']
-                                    . '/' . $this->config['log']['file_name'];
+        $logFile = $this->configService->getErrorLogFile();
+        $expectedLogFile = BASE_DIR . '/' . $this->config['error_log']['directory']
+                                    . '/' . $this->config['error_log']['file_name'];
 
         $this->assertDirectoryExists($logPath);
         $this->assertSame($expectedLogFile, $logFile);

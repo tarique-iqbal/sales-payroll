@@ -33,9 +33,9 @@ class ConfigService implements ConfigServiceInterface
     /**
      * @return string
      */
-    public function getLogFile(): string
+    public function getErrorLogFile(): string
     {
-        return BASE_DIR . '/' . $this->config['log']['directory']
-                        . '/' . $this->config['log']['file_name'];
+        return BASE_DIR . '/' . $this->config['error_log']['directory']
+                        . '/' . $this->config['error_log']['file_name'];
     }
 }

@@ -30,7 +30,7 @@ class ExceptionHandler
     public function report(\Throwable $e): void
     {
         $message = $e->getMessage();
-        $logFile = $this->configService->getLogFile();
+        $logFile = $this->configService->getErrorLogFile();
 
         error_log($message . PHP_EOL, 3, $logFile);
     }

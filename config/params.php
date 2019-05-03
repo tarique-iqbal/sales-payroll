@@ -4,10 +4,9 @@ $config = [
     'data' => [
         'directory'     => 'data'
     ],
-
-    'log' => [
-        'directory'     => 'log',
-        'file_name'     => 'errors.log'
+    'error_log' => [
+        'directory' => 'var/logs',
+        'file_name' => 'errors.log'
     ],
 ];
 

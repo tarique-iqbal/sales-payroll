@@ -18,7 +18,7 @@ class ExceptionHandlerTest extends TestCase
     protected function tearDown()
     {
         $configService = $this->container['ConfigService'];
-        $logFile = $configService->getLogFile();
+        $logFile = $configService->getErrorLogFile();
 
         if (file_exists($logFile)) {
             unlink($logFile);
@@ -30,7 +30,7 @@ class ExceptionHandlerTest extends TestCase
         $configService = $this->container['ConfigService'];
         $exceptionHandler = $this->container['ExceptionHandler'];
 
-        $logFile = $configService->getLogFile();
+        $logFile = $configService->getErrorLogFile();
         $message = 'Exception message to write in log file.';
 
         $exceptionHandler->report(new \Exception($message));
