@@ -13,7 +13,7 @@ class ConfigServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->config = include BASE_DIR . '/tests/Fixture/config/params.php';
+        $this->config = include BASE_DIR . '/config/params_test.php';
         $this->configService = new ConfigService($this->config);
     }
 

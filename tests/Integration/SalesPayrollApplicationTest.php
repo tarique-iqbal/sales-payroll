@@ -13,7 +13,7 @@ class SalesPayrollApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $config = include BASE_DIR . '/tests/Fixture/config/params.php';
+        $config = include BASE_DIR . '/config/params_test.php';
         $this->container = (new ContainerFactory($config))->create();
 
         $this->container['CLIArgsService'] = $this->getMockBuilder(CLIArgsServiceInterface::class)->getMock();

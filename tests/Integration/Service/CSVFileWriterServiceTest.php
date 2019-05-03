@@ -17,7 +17,7 @@ class CSVFileWriterServiceTest extends TestCase
 
     protected function setUp()
     {
-        $config = include BASE_DIR . '/tests/Fixture/config/params.php';
+        $config = include BASE_DIR . '/config/params_test.php';
         $configService = new ConfigService($config);
         $this->csvFileLocation = $configService->getDataPath() . '/test-case.csv';
         $this->csvFileWriterService = new CSVFileWriterService(new SalaryService(), new BonusService());

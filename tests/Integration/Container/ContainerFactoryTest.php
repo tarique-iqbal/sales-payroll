@@ -18,7 +18,7 @@ class ContainerFactoryTest extends TestCase
 {
     public function testCreate()
     {
-        $config = include BASE_DIR . '/tests/Fixture/config/params.php';
+        $config = include BASE_DIR . '/config/params_test.php';
 
         $container = (new ContainerFactory($config))->create();
 
