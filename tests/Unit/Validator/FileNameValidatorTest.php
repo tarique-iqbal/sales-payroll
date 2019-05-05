@@ -7,7 +7,7 @@ use SalesPayroll\Validator\FileNameValidator;
 
 class FileNameValidatorTest extends TestCase
 {
-    public function addIsValidDataProvider()
+    public function addFileNameDataProvider()
     {
         return [
             ['', false],
@@ -21,7 +21,7 @@ class FileNameValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider addIsValidDataProvider
+     * @dataProvider addFileNameDataProvider
      */
     public function testIsValid(string $fileName, bool $expectedStatus)
     {

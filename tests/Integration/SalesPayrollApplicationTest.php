@@ -37,7 +37,8 @@ class SalesPayrollApplicationTest extends TestCase
 
         $cliArgsService->method('getArgs')->willReturn(['test-case.csv']);
 
-        $this->setOutputCallback(function() {});
+        $this->setOutputCallback(function () {
+        });
 
         $salesPayrollApplication->writeSalaryBonusPaymentDates();
 
@@ -62,34 +63,6 @@ class SalesPayrollApplicationTest extends TestCase
 
         ini_set('error_reporting', 'E_ALL');
         ini_set('display_errors', 'Off');
-
-        $salesPayrollApplication->writeSalaryBonusPaymentDates();
-    }
-
-    public function addInvalidArgumentDataProvider()
-    {
-        return [
-            [
-                [null]
-            ],
-            [
-                [null, 'data.csv']
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider addInvalidArgumentDataProvider
-     * @expectedException \SalesPayroll\Exception\UnknownFileNameException
-     */
-    public function testWriteSalaryBonusPaymentDatesWithInvalidArgument(array $args)
-    {
-        $cliArgsService = $this->container['CLIArgsService'];
-        $salesPayrollApplication = $this->container['SalesPayrollApplication'];
-
-        $cliArgsService->method('getArgs')->willReturn($args);
-
-        $this->setOutputCallback(function() {});
 
         $salesPayrollApplication->writeSalaryBonusPaymentDates();
     }

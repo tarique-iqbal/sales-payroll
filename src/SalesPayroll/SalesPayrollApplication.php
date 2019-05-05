@@ -5,9 +5,10 @@ namespace SalesPayroll;
 use SalesPayroll\Service\FileWriterServiceInterface;
 use SalesPayroll\Service\ConfigServiceInterface;
 use SalesPayroll\Service\CLIArgsServiceInterface;
-use SalesPayroll\Validator\FileNameValidator;
 use SalesPayroll\Exception\FileOpenException;
-use SalesPayroll\Exception\UnknownFileNameException;
+use SalesPayroll\Validator\ArrayHasKeyValidator;
+use SalesPayroll\Validator\ArraySizeValidator;
+use SalesPayroll\Validator\FileNameValidator;
 
 /**
  * Class SalesPayrollApplication
@@ -15,6 +16,8 @@ use SalesPayroll\Exception\UnknownFileNameException;
  */
 class SalesPayrollApplication
 {
+    const INPUT_SIZE = 1;
+
     const NUMBER_OF_MONTHS = 12;
 
     /**
@@ -33,39 +36,31 @@ class SalesPayrollApplication
     private $csvFileWriterService;
 
     /**
-     * @var FileNameValidator
-     */
-    private $fileNameValidator;
-
-    /**
      * SalesPayrollApplication constructor.
      * @param ConfigServiceInterface $configService
      * @param CLIArgsServiceInterface $cliArgsService
      * @param FileWriterServiceInterface $csvFileWriterService
-     * @param FileNameValidator $fileNameValidator
      */
     public function __construct(
         ConfigServiceInterface $configService,
         CLIArgsServiceInterface $cliArgsService,
-        FileWriterServiceInterface $csvFileWriterService,
-        FileNameValidator $fileNameValidator
+        FileWriterServiceInterface $csvFileWriterService
     ) {
         $this->configService = $configService;
         $this->cliArgsService = $cliArgsService;
         $this->csvFileWriterService = $csvFileWriterService;
-        $this->fileNameValidator = $fileNameValidator;
     }
 
     /**
-     * @throws UnknownFileNameException
      * @throws FileOpenException
      */
     public function writeSalaryBonusPaymentDates(): void
     {
-        $args = $this->cliArgsService->getArgs();
-        $fileName = $this->getFileName($args);
+        $fileNameArgs = $this->cliArgsService->getArgs();
 
-        if ($this->fileNameValidator->isValid($fileName) === true) {
+        if ($this->validateInput($fileNameArgs) === true) {
+            $fileName = current($fileNameArgs);
+
             if ($this->isFileExists($fileName) === true) {
                 if ($this->isOverwriteFile($fileName) === true) {
                     $this->writeCSVFile($fileName);
@@ -73,29 +68,40 @@ class SalesPayrollApplication
             } else {
                 $this->writeCSVFile($fileName);
             }
-        } else {
-            echo $this->fileNameValidator->getErrorMessage();
         }
     }
 
     /**
-     * @param array $args
-     * @return string
-     * @throws UnknownFileNameException
+     * @param array $fileName
+     * @return bool
      */
-    private function getFileName(array $args): string
+    private function validateInput(array $fileName): bool
     {
-        if (isset($args['file'])) {
-            return $args['file'];
-        } elseif (isset($args['f'])) {
-            return $args['f'];
-        } elseif (isset($args[0])) {
-            return $args[0];
+        $arraySizeValidator = new ArraySizeValidator();
+
+        if ($arraySizeValidator->isValid($fileName, self::INPUT_SIZE) === false) {
+            echo $arraySizeValidator->getErrorMessage() . PHP_EOL;
+
+            return false;
         }
 
-        echo 'Unknown file name. Please provide a valid file name.' . PHP_EOL;
+        $arrayHasKeyValidator = new ArrayHasKeyValidator();
 
-        throw new UnknownFileNameException('No file name provided via CLI.');
+        if ($arrayHasKeyValidator->isValid($fileName) === false) {
+            echo $arrayHasKeyValidator->getErrorMessage() . PHP_EOL;
+
+            return false;
+        }
+
+        $fileNameValidator = new FileNameValidator();
+
+        if ($fileNameValidator->isValid(current($fileName)) === false) {
+            echo $fileNameValidator->getErrorMessage() . PHP_EOL;
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -106,7 +112,7 @@ class SalesPayrollApplication
     {
         $today = date('d.m.Y');
         $csvFileLocation = $this->configService
-                                ->getDataPath(). '/' . $fileName;
+                                ->getDataPath() . '/' . $fileName;
 
         $this->csvFileWriterService
              ->writeFile($csvFileLocation, self::NUMBER_OF_MONTHS, $today);
@@ -120,7 +126,8 @@ class SalesPayrollApplication
      */
     private function isFileExists(string $fileName): bool
     {
-        $csvFileLocation = $this->configService->getDataPath() . '/' . $fileName;
+        $csvFileLocation = $this->configService
+                                ->getDataPath() . '/' . $fileName;
 
         if (file_exists($csvFileLocation)) {
             return true;

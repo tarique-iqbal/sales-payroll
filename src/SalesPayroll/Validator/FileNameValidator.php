@@ -20,13 +20,13 @@ class FileNameValidator
     public function isValid(string $fileName): bool
     {
         if (trim($fileName) === '') {
-            $this->errorMessage = 'File name cannot be empty.' . PHP_EOL;
+            $this->errorMessage = 'File name cannot be empty.';
 
             return false;
         }
 
         if (!preg_match('/^[a-z]{1}[a-z0-9\.\-]+\.csv$/i', $fileName)) {
-            $this->errorMessage = 'File name contain only a-z, 0-9, dot (.), hyphen (-) with csv extension.' . PHP_EOL;
+            $this->errorMessage = 'File name contain only a-z, 0-9, dot (.), hyphen (-) with csv extension.';
 
             return false;
         }

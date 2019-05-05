@@ -10,7 +10,6 @@ use SalesPayroll\Service\SalaryService;
 use SalesPayroll\Service\ConfigService;
 use SalesPayroll\Service\CLIArgsService;
 use SalesPayroll\Service\CSVFileWriterService;
-use SalesPayroll\Validator\FileNameValidator;
 use SalesPayroll\SalesPayrollApplication;
 use SalesPayroll\Exception\ExceptionHandler;
 
@@ -24,7 +23,6 @@ class ContainerFactoryTest extends TestCase
 
         $this->assertInstanceOf(Container::class, $container);
         $this->assertInstanceOf(ConfigService::class, $container['ConfigService']);
-        $this->assertInstanceOf(FileNameValidator::class, $container['FileNameValidator']);
         $this->assertInstanceOf(CLIArgsService::class, $container['CLIArgsService']);
         $this->assertInstanceOf(SalaryService::class, $container['SalaryService']);
         $this->assertInstanceOf(BonusService::class, $container['BonusService']);

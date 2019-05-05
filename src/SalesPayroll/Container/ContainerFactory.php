@@ -8,7 +8,6 @@ use SalesPayroll\Service\SalaryService;
 use SalesPayroll\Service\ConfigService;
 use SalesPayroll\Service\CLIArgsService;
 use SalesPayroll\Service\CSVFileWriterService;
-use SalesPayroll\Validator\FileNameValidator;
 use SalesPayroll\SalesPayrollApplication;
 use SalesPayroll\Exception\ExceptionHandler;
 
@@ -43,10 +42,6 @@ class ContainerFactory
             return new ConfigService($this->config);
         };
 
-        $container['FileNameValidator'] = function () {
-            return new FileNameValidator();
-        };
-
         $container['CLIArgsService'] = function () {
             return new CLIArgsService();
         };
@@ -70,8 +65,7 @@ class ContainerFactory
             return new SalesPayrollApplication(
                 $c['ConfigService'],
                 $c['CLIArgsService'],
-                $c['CSVFileWriterService'],
-                $c['FileNameValidator']
+                $c['CSVFileWriterService']
             );
         };
 
