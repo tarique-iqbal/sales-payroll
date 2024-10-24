@@ -4,18 +4,20 @@ namespace SalesPayroll\Tests\Integration\Service;
 
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use SalesPayroll\Exception\FileOpenException;
 use SalesPayroll\Service\BonusService;
 use SalesPayroll\Service\ConfigService;
+use SalesPayroll\Service\FileWriterServiceInterface;
 use SalesPayroll\Service\SalaryService;
 use SalesPayroll\Service\CSVFileWriterService;
 
 class CSVFileWriterServiceTest extends TestCase
 {
-    protected $csvFileLocation;
+    protected string $csvFileLocation;
 
-    protected $csvFileWriterService;
+    protected FileWriterServiceInterface $csvFileWriterService;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = include BASE_DIR . '/config/params_test.php';
         $configService = new ConfigService($config);
@@ -23,7 +25,7 @@ class CSVFileWriterServiceTest extends TestCase
         $this->csvFileWriterService = new CSVFileWriterService(new SalaryService(), new BonusService());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (file_exists($this->csvFileLocation)) {
             unlink($this->csvFileLocation);
@@ -40,11 +42,10 @@ class CSVFileWriterServiceTest extends TestCase
         $this->assertTrue(file_exists($this->csvFileLocation));
     }
 
-    /**
-     * @expectedException \SalesPayroll\Exception\FileOpenException
-     */
     public function testWriteFileWithInvalidDirectory()
     {
+        $this->expectException(FileOpenException::class);
+
         $numberOfMonths = 12;
         $today = date('d.m.Y');
         $csvFile = '/path/to/invalid/test-case.csv';

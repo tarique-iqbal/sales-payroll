@@ -12,8 +12,8 @@ class CSVFileWriterService implements FileWriterServiceInterface
 {
     const CSV_HEADER = ['Month Name', 'Salary Payment Date', 'Bonus Payment Date'];
 
-    private $salaryService;
-    private $bonusService;
+    private SalaryServiceInterface $salaryService;
+    private BonusServiceInterface $bonusService;
 
     /**
      * CSVFileWriterService constructor.

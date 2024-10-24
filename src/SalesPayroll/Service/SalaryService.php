@@ -10,8 +10,8 @@ use SalesPayroll\Entity\Salary;
  */
 class SalaryService implements SalaryServiceInterface
 {
-    const SECONDS_IN_A_DAY = 86400;
-    const MONTHS_IN_A_YEAR = 12;
+    private const SECONDS_IN_A_DAY = 86400;
+    private const MONTHS_IN_A_YEAR = 12;
 
     /**
      * @param int $numberOfMonths

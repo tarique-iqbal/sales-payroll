@@ -11,12 +11,12 @@ class Bonus
     /**
      * @var string
      */
-    private $paymentMonth;
+    private string $paymentMonth;
 
     /**
      * @var string
      */
-    private $bonusPaymentDate;
+    private string $bonusPaymentDate;
 
     /**
      * @return string

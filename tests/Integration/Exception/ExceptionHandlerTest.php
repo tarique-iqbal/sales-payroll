@@ -3,19 +3,20 @@
 namespace SalesPayroll\Tests\Integration\Exception;
 
 use PHPUnit\Framework\TestCase;
+use Pimple\Container;
 use SalesPayroll\Container\ContainerFactory;
 
 class ExceptionHandlerTest extends TestCase
 {
-    protected $container;
+    protected Container $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = include BASE_DIR . '/config/params_test.php';
         $this->container = (new ContainerFactory($config))->create();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $configService = $this->container['ConfigService'];
         $logFile = $configService->getErrorLogFile();
@@ -35,6 +36,6 @@ class ExceptionHandlerTest extends TestCase
 
         $exceptionHandler->report(new \Exception($message));
 
-        $this->assertContains($message, trim(file_get_contents($logFile)));
+        $this->assertStringContainsString($message, trim(file_get_contents($logFile)));
     }
 }

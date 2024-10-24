@@ -11,12 +11,12 @@ class Salary
     /**
      * @var string
      */
-    private $paymentMonth;
+    private string $paymentMonth;
 
     /**
      * @var string
      */
-    private $salaryPaymentDate;
+    private string $salaryPaymentDate;
 
     /**
      * @return string

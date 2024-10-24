@@ -11,7 +11,7 @@ class ConfigService implements ConfigServiceInterface
     /**
      * @var array
      */
-    private $config = [];
+    private array $config = [];
 
     /**
      * ConfigService constructor.

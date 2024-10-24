@@ -2,21 +2,23 @@
 
 namespace SalesPayroll\Tests\Unit\Service;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SalesPayroll\Service\CLIArgsService;
+use SalesPayroll\Service\CLIArgsServiceInterface;
 
 class CLIArgsServiceTest extends TestCase
 {
-    const FILE = 'index.php';
+    private const FILE = 'index.php';
 
-    protected $cliArgsService;
+    protected CLIArgsServiceInterface $cliArgsService;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->cliArgsService = new CLIArgsService();
     }
 
-    public function addGetArgsDataProvider()
+    public static function addGetArgsDataProvider(): array
     {
         return [
             [
@@ -120,9 +122,7 @@ class CLIArgsServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider addGetArgsDataProvider
-     */
+    #[DataProvider('addGetArgsDataProvider')]
     public function testGetArgs(array $arguments, int $countExpected, array $resultExpected = [])
     {
         $_SERVER['argv'] = $arguments;
@@ -131,7 +131,7 @@ class CLIArgsServiceTest extends TestCase
         $this->assertEquals($countExpected, count($result));
 
         foreach ($result as $key => $value) {
-            $this->assertSame($resultExpected[$key], $result[$key]);
+            $this->assertSame($resultExpected[$key], $value);
         }
     }
 }

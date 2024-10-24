@@ -20,7 +20,7 @@ class ContainerFactory
     /**
      * @var array
      */
-    private $config;
+    private array $config;
 
     /**
      * ContainerFactory constructor.

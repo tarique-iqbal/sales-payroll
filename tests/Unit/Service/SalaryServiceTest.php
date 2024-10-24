@@ -2,19 +2,21 @@
 
 namespace SalesPayroll\Tests\Unit\Service;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SalesPayroll\Service\SalaryService;
+use SalesPayroll\Service\SalaryServiceInterface;
 
 class SalaryServiceTest extends TestCase
 {
-    protected $salaryService;
+    protected SalaryServiceInterface $salaryService;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->salaryService = new SalaryService();
     }
 
-    public function addSalaryPaymentDatesDataProvider()
+    public static function addSalaryPaymentDatesDataProvider(): array
     {
         return [
             [
@@ -46,9 +48,7 @@ class SalaryServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider addSalaryPaymentDatesDataProvider
-     */
+    #[DataProvider('addSalaryPaymentDatesDataProvider')]
     public function testGetSalaryPaymentDates(int $numberOfMonths, string $date, array $expectedPaymentDates)
     {
         $salaryPaymentDates = $this->salaryService->getSalaryPaymentDates($numberOfMonths, $date);
@@ -60,7 +60,7 @@ class SalaryServiceTest extends TestCase
         }
     }
 
-    public function addSalaryPaymentDatesUnusualCaseDataProvider()
+    public static function addSalaryPaymentDatesUnusualCaseDataProvider(): array
     {
         return [
             [
@@ -74,9 +74,7 @@ class SalaryServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider addSalaryPaymentDatesUnusualCaseDataProvider
-     */
+    #[DataProvider('addSalaryPaymentDatesUnusualCaseDataProvider')]
     public function testGetSalaryPaymentDatesUnusualCase(int $numberOfMonths, string $date)
     {
         $salaryPaymentDates = $this->salaryService->getSalaryPaymentDates($numberOfMonths, $date);

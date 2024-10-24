@@ -13,7 +13,7 @@ class ExceptionHandler
     /**
      * @var ConfigServiceInterface
      */
-    private $configService;
+    private ConfigServiceInterface $configService;
 
     /**
      * ExceptionHandler constructor.

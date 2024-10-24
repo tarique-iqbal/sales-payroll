@@ -11,10 +11,10 @@ use SalesPayroll\Exception\FileOpenException;
 interface FileWriterServiceInterface
 {
     /**
-     * @param string $fileName
+     * @param string $csvFileLocation
      * @param int $numberOfMonths
      * @param string $today
      * @throws FileOpenException
      */
-    public function writeFile(string $fileName, int $numberOfMonths, string $today): void;
+    public function writeFile(string $csvFileLocation, int $numberOfMonths, string $today): void;
 }

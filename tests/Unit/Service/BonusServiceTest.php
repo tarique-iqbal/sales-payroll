@@ -2,19 +2,21 @@
 
 namespace SalesPayroll\Tests\Unit\Service;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SalesPayroll\Service\BonusService;
+use SalesPayroll\Service\BonusServiceInterface;
 
 class BonusServiceTest extends TestCase
 {
-    protected $bonusService;
+    protected BonusServiceInterface $bonusService;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->bonusService = new BonusService();
     }
 
-    public function addBonusPaymentDatesDataProvider()
+    public static function addBonusPaymentDatesDataProvider(): array
     {
         return [
             [
@@ -46,9 +48,7 @@ class BonusServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider addBonusPaymentDatesDataProvider
-     */
+    #[DataProvider('addBonusPaymentDatesDataProvider')]
     public function testGetBonusPaymentDates(int $numberOfMonths, string $date, array $expectedPaymentDates)
     {
         $bonusPaymentDates = $this->bonusService->getBonusPaymentDates($numberOfMonths, $date);
@@ -60,7 +60,7 @@ class BonusServiceTest extends TestCase
         }
     }
 
-    public function addBonusPaymentDatesUnusualCaseDataProvider()
+    public static function addBonusPaymentDatesUnusualCaseDataProvider(): array
     {
         return [
             [
@@ -74,9 +74,7 @@ class BonusServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider addBonusPaymentDatesUnusualCaseDataProvider
-     */
+    #[DataProvider('addBonusPaymentDatesUnusualCaseDataProvider')]
     public function testGetBonusPaymentDatesUnusualCase(int $numberOfMonths, string $date)
     {
         $bonusPaymentDates = $this->bonusService->getBonusPaymentDates($numberOfMonths, $date);

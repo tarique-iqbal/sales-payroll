@@ -32,7 +32,7 @@ class CLIArgsService implements CLIArgsServiceInterface
                         $value = $argv[$i + 1];
                         $i++;
                     } else {
-                        $value = isset($result[$key]) ? $result[$key] : $defaultValue;
+                        $value = $result[$key] ?? $defaultValue;
                     }
 
                     $result[$key] = $value;
@@ -51,7 +51,7 @@ class CLIArgsService implements CLIArgsServiceInterface
 
                     foreach ($chars as $char) {
                         $key = $char;
-                        $value = isset($result[$key]) ? $result[$key] : $defaultValue;
+                        $value = $result[$key] ?? $defaultValue;
                         $result[$key] = $value;
                     }
 

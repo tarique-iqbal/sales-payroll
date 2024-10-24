@@ -4,14 +4,15 @@ namespace SalesPayroll\Tests\Integration\Service;
 
 use PHPUnit\Framework\TestCase;
 use SalesPayroll\Service\ConfigService;
+use SalesPayroll\Service\ConfigServiceInterface;
 
 class ConfigServiceTest extends TestCase
 {
-    protected $configService;
+    protected ConfigServiceInterface $configService;
 
-    protected $config;
+    protected array $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->config = include BASE_DIR . '/config/params_test.php';
         $this->configService = new ConfigService($this->config);
@@ -26,7 +27,7 @@ class ConfigServiceTest extends TestCase
 
     public function testGetLogFile()
     {
-        $logPath = BASE_DIR . '/' . $this->config['log']['directory'];
+        $logPath = BASE_DIR . '/' . $this->config['error_log']['directory'];
 
         $logFile = $this->configService->getErrorLogFile();
         $expectedLogFile = BASE_DIR . '/' . $this->config['error_log']['directory']
