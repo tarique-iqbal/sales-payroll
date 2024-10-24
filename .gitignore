@@ -8,3 +8,4 @@
 !/var/logs
 /var/logs/*
 !var/logs/.gitkeep
+.phpunit.result.cache
