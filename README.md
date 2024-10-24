@@ -10,7 +10,7 @@ The output would be a CSV file, containing the payment dates for the next twelve
 
 ```
 composer
-php (>=7.2)
+php (>=8.2)
 ```
 
 ## Note
@@ -54,7 +54,7 @@ $ php index.php data.csv
 
 ## Running the tests
 
-- Follow the Install instructions.
+- Follow the Installation instructions.
 
 Adapt `phpunit.xml` PHP Constant according to your setup environment.
 
