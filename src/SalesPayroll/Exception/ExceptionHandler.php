@@ -33,5 +33,7 @@ class ExceptionHandler
         $logFile = $this->configService->getErrorLogFile();
 
         error_log($message . PHP_EOL, 3, $logFile);
+
+        echo 'Exception occurred! Please check errors log file: ' . $logFile . PHP_EOL;
     }
 }
