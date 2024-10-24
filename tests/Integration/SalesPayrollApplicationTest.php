@@ -2,16 +2,19 @@
 
 namespace SalesPayroll\Tests\Integration;
 
+use Assert\LazyAssertionException;
 use PHPUnit\Framework\TestCase;
+use Pimple\Container;
 use SalesPayroll\Container\ContainerFactory;
+use SalesPayroll\Exception\FileOpenException;
 use SalesPayroll\Service\ConfigServiceInterface;
 use SalesPayroll\Service\CLIArgsServiceInterface;
 
 class SalesPayrollApplicationTest extends TestCase
 {
-    protected $container;
+    protected Container $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = include BASE_DIR . '/config/params_test.php';
         $this->container = (new ContainerFactory($config))->create();
@@ -19,7 +22,7 @@ class SalesPayrollApplicationTest extends TestCase
         $this->container['CLIArgsService'] = $this->getMockBuilder(CLIArgsServiceInterface::class)->getMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $configService = $this->container['ConfigService'];
         $csvFileLocation = $configService->getDataPath() . '/test-case.csv';
@@ -31,39 +34,36 @@ class SalesPayrollApplicationTest extends TestCase
 
     public function testWriteSalaryBonusPaymentDates()
     {
-        $configService = $this->container['ConfigService'];
-        $cliArgsService = $this->container['CLIArgsService'];
-        $salesPayrollApplication = $this->container['SalesPayrollApplication'];
+        $this->expectOutputString('The CSV file has been created successfully.' . PHP_EOL);
 
-        $cliArgsService->method('getArgs')->willReturn(['test-case.csv']);
+        $this->container['CLIArgsService']->method('getArgs')->willReturn(['test-case.csv']);
+        $this->container['SalesPayrollApplication']->writeSalaryBonusPaymentDates();
 
-        $this->setOutputCallback(function () {
-        });
-
-        $salesPayrollApplication->writeSalaryBonusPaymentDates();
-
-        $csvFileLocation = $configService->getDataPath() . '/test-case.csv';
+        $csvFileLocation = $this->container['ConfigService']->getDataPath() . '/test-case.csv';
 
         $this->assertTrue(file_exists($csvFileLocation));
     }
 
-    /**
-     * @expectedException \SalesPayroll\Exception\FileOpenException
-     */
-    public function testWriteSalaryBonusPaymentDatesWithInvalidDirectory()
+    public function testWriteSalaryBonusPaymentDatesInvalidInput()
     {
+        $this->expectException(LazyAssertionException::class);
+
+        $this->container['CLIArgsService']->method('getArgs')->willReturn([]);
+        $this->container['SalesPayrollApplication']->writeSalaryBonusPaymentDates();
+    }
+
+    public function testWriteSalaryBonusPaymentDatesInvalidDirectory()
+    {
+        $this->expectException(FileOpenException::class);
+
         $this->container['ConfigService'] = $this->getMockBuilder(ConfigServiceInterface::class)->getMock();
 
-        $configService = $this->container['ConfigService'];
-        $cliArgsService = $this->container['CLIArgsService'];
-        $salesPayrollApplication = $this->container['SalesPayrollApplication'];
-
-        $configService->method('getDataPath')->willReturn('invalid/path');
-        $cliArgsService->method('getArgs')->willReturn(['test-case.csv']);
+        $this->container['ConfigService']->method('getDataPath')->willReturn('invalid/path');
+        $this->container['CLIArgsService']->method('getArgs')->willReturn(['test-case.csv']);
 
         ini_set('error_reporting', 'E_ALL');
         ini_set('display_errors', 'Off');
 
-        $salesPayrollApplication->writeSalaryBonusPaymentDates();
+        $this->container['SalesPayrollApplication']->writeSalaryBonusPaymentDates();
     }
 }

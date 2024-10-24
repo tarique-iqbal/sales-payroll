@@ -2,13 +2,12 @@
 
 namespace SalesPayroll;
 
+use Assert\Assert;
 use SalesPayroll\Service\FileWriterServiceInterface;
 use SalesPayroll\Service\ConfigServiceInterface;
 use SalesPayroll\Service\CLIArgsServiceInterface;
 use SalesPayroll\Exception\FileOpenException;
-use SalesPayroll\Validator\ArrayHasKeyValidator;
-use SalesPayroll\Validator\ArraySizeValidator;
-use SalesPayroll\Validator\FileNameValidator;
+use SalesPayroll\Utility\Utility;
 
 /**
  * Class SalesPayrollApplication
@@ -23,17 +22,17 @@ class SalesPayrollApplication
     /**
      * @var ConfigServiceInterface
      */
-    private $configService;
+    private ConfigServiceInterface $configService;
 
     /**
      * @var CLIArgsServiceInterface
      */
-    private $cliArgsService;
+    private CLIArgsServiceInterface $cliArgsService;
 
     /**
      * @var FileWriterServiceInterface
      */
-    private $csvFileWriterService;
+    private FileWriterServiceInterface $csvFileWriterService;
 
     /**
      * SalesPayrollApplication constructor.
@@ -56,52 +55,23 @@ class SalesPayrollApplication
      */
     public function writeSalaryBonusPaymentDates(): void
     {
-        $fileNameArgs = $this->cliArgsService->getArgs();
+        $inputArgs = $this->cliArgsService->getArgs();
+        $fileName = current($inputArgs);
 
-        if ($this->validateInput($fileNameArgs) === true) {
-            $fileName = current($fileNameArgs);
+        Assert::lazy()
+            ->that($inputArgs, 'inputArgs')->isArray()->count(self::INPUT_SIZE)
+            ->that($fileName, 'fileName ')->regex('/^[a-z]{1}[a-z0-9.\-]+\.csv$/i')
+            ->verifyNow();
 
-            if ($this->isFileExists($fileName) === true) {
-                if ($this->isOverwriteFile($fileName) === true) {
-                    $this->writeCSVFile($fileName);
-                }
-            } else {
+        $csvFileLocation = $this->configService->getDataPath() . '/' . $fileName;
+
+        if (Utility::isFileExists($csvFileLocation) === true) {
+            if (Utility::isOverwriteFile($fileName) === true) {
                 $this->writeCSVFile($fileName);
             }
+        } else {
+            $this->writeCSVFile($fileName);
         }
-    }
-
-    /**
-     * @param array $fileName
-     * @return bool
-     */
-    private function validateInput(array $fileName): bool
-    {
-        $arraySizeValidator = new ArraySizeValidator();
-
-        if ($arraySizeValidator->isValid($fileName, self::INPUT_SIZE) === false) {
-            echo $arraySizeValidator->getErrorMessage() . PHP_EOL;
-
-            return false;
-        }
-
-        $arrayHasKeyValidator = new ArrayHasKeyValidator();
-
-        if ($arrayHasKeyValidator->isValid($fileName) === false) {
-            echo $arrayHasKeyValidator->getErrorMessage() . PHP_EOL;
-
-            return false;
-        }
-
-        $fileNameValidator = new FileNameValidator();
-
-        if ($fileNameValidator->isValid(current($fileName)) === false) {
-            echo $fileNameValidator->getErrorMessage() . PHP_EOL;
-
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -111,47 +81,11 @@ class SalesPayrollApplication
     private function writeCSVFile(string $fileName): void
     {
         $today = date('d.m.Y');
-        $csvFileLocation = $this->configService
-                                ->getDataPath() . '/' . $fileName;
+        $csvFileLocation = $this->configService->getDataPath() . '/' . $fileName;
 
         $this->csvFileWriterService
              ->writeFile($csvFileLocation, self::NUMBER_OF_MONTHS, $today);
 
-        echo 'The CSV file has been created successfully.' . PHP_EOL;
-    }
-
-    /**
-     * @param string $fileName
-     * @return bool
-     */
-    private function isFileExists(string $fileName): bool
-    {
-        $csvFileLocation = $this->configService
-                                ->getDataPath() . '/' . $fileName;
-
-        if (file_exists($csvFileLocation)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $fileName
-     * @return bool
-     */
-    private function isOverwriteFile(string $fileName): bool
-    {
-        echo $fileName . ' file already exists! Are you sure you want to overwrite it (y/n)? :';
-        $handle = fopen('php://stdin', 'r');
-        $line = fgets($handle);
-
-        if (strtolower(trim($line)) === 'y') {
-            return true;
-        }
-
-        echo 'Action aborted.' . PHP_EOL;
-
-        return false;
+        echo sprintf('The CSV file has been created successfully.%s', PHP_EOL);
     }
 }
