@@ -15,7 +15,8 @@
 
     "require": {
         "php": "^8.2",
-        "pimple/pimple": "^3.5"
+        "pimple/pimple": "^3.5",
+        "beberlei/assert": "^3.3"
     },
 
     "require-dev": {
