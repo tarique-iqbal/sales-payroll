@@ -22,7 +22,7 @@ The application will now work if [register_argc_argv](http://php.net/manual/en/i
 
 - Clone this repo to your local machine using
 ```shell
-$ git clone https://github.com/tarique-iqbal/php-code-sample.git
+$ git clone https://github.com/tarique-iqbal/sales-payroll.git
 ```
 
 - Need write permission to following `directories` through the PHP script
