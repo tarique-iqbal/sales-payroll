@@ -9,37 +9,18 @@ use SalesPayroll\Service\CLIArgsServiceInterface;
 use SalesPayroll\Exception\FileOpenException;
 use SalesPayroll\Utility\Utility;
 
-/**
- * Class SalesPayrollApplication
- * @package SalesPayroll\Application
- */
 class SalesPayrollApplication
 {
     const INPUT_SIZE = 1;
 
     const NUMBER_OF_MONTHS = 12;
 
-    /**
-     * @var ConfigServiceInterface
-     */
     private ConfigServiceInterface $configService;
 
-    /**
-     * @var CLIArgsServiceInterface
-     */
     private CLIArgsServiceInterface $cliArgsService;
 
-    /**
-     * @var FileWriterServiceInterface
-     */
     private FileWriterServiceInterface $csvFileWriterService;
 
-    /**
-     * SalesPayrollApplication constructor.
-     * @param ConfigServiceInterface $configService
-     * @param CLIArgsServiceInterface $cliArgsService
-     * @param FileWriterServiceInterface $csvFileWriterService
-     */
     public function __construct(
         ConfigServiceInterface $configService,
         CLIArgsServiceInterface $cliArgsService,
@@ -60,7 +41,7 @@ class SalesPayrollApplication
 
         Assert::lazy()
             ->that($inputArgs, 'inputArgs')->isArray()->count(self::INPUT_SIZE)
-            ->that($fileName, 'fileName ')->regex('/^[a-z]{1}[a-z0-9.\-]+\.csv$/i')
+            ->that($fileName, 'fileName')->regex('/^[a-z]{1}[a-z0-9.\-]+\.csv$/i')
             ->verifyNow();
 
         $csvFileLocation = $this->configService->getDataPath() . '/' . $fileName;
@@ -75,7 +56,6 @@ class SalesPayrollApplication
     }
 
     /**
-     * @param string $fileName
      * @throws FileOpenException
      */
     private function writeCSVFile(string $fileName): void

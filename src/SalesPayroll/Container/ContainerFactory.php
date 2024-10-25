@@ -11,29 +11,15 @@ use SalesPayroll\Service\CSVFileWriterService;
 use SalesPayroll\SalesPayrollApplication;
 use SalesPayroll\Exception\ExceptionHandler;
 
-/**
- * Class ContainerFactory
- * @package SalesPayroll
- */
 class ContainerFactory
 {
-    /**
-     * @var array
-     */
     private array $config;
 
-    /**
-     * ContainerFactory constructor.
-     * @param array $config
-     */
     public function __construct(array $config)
     {
         $this->config = $config;
     }
 
-    /**
-     * @return Container
-     */
     public function create(): Container
     {
         $container = new Container();

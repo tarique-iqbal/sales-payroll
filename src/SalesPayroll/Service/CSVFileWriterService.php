@@ -4,22 +4,14 @@ namespace SalesPayroll\Service;
 
 use SalesPayroll\Exception\FileOpenException;
 
-/**
- * Class BonusService
- * @package SalesPayroll\Service
- */
 class CSVFileWriterService implements FileWriterServiceInterface
 {
     const CSV_HEADER = ['Month Name', 'Salary Payment Date', 'Bonus Payment Date'];
 
     private SalaryServiceInterface $salaryService;
+
     private BonusServiceInterface $bonusService;
 
-    /**
-     * CSVFileWriterService constructor.
-     * @param SalaryServiceInterface $salaryService
-     * @param BonusServiceInterface $bonusService
-     */
     public function __construct(
         SalaryServiceInterface $salaryService,
         BonusServiceInterface $bonusService
@@ -28,12 +20,6 @@ class CSVFileWriterService implements FileWriterServiceInterface
         $this->bonusService = $bonusService;
     }
 
-    /**
-     * @param string $csvFileLocation
-     * @param int $numberOfMonths
-     * @param string $today
-     * @throws FileOpenException
-     */
     public function writeFile(string $csvFileLocation, int $numberOfMonths, string $today): void
     {
         $salaryPaymentDates = $this->salaryService

@@ -2,10 +2,6 @@
 
 namespace SalesPayroll\Service;
 
-/**
- * Interface CLIArgsServiceInterface
- * @package SalesPayroll\Service
- */
 interface CLIArgsServiceInterface
 {
     /**

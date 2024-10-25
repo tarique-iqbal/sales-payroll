@@ -2,15 +2,8 @@
 
 namespace SalesPayroll\Service;
 
-/**
- * Class CLIArgsService
- * @package SalesPayroll\Service
- */
 class CLIArgsService implements CLIArgsServiceInterface
 {
-    /**
-     * @return array
-     */
     public function getArgs(): array
     {
         $argv = $_SERVER['argv'];

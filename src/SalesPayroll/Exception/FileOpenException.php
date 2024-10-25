@@ -2,10 +2,6 @@
 
 namespace SalesPayroll\Exception;
 
-/**
- * Class FileOpenException
- * @package SalesPayroll\Exception
- */
 class FileOpenException extends \Exception
 {
 

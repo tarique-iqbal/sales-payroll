@@ -4,20 +4,12 @@ namespace SalesPayroll\Service;
 
 use SalesPayroll\Entity\Salary;
 
-/**
- * Class SalaryService
- * @package SalesPayroll\Service
- */
 class SalaryService implements SalaryServiceInterface
 {
     private const SECONDS_IN_A_DAY = 86400;
+
     private const MONTHS_IN_A_YEAR = 12;
 
-    /**
-     * @param int $numberOfMonths
-     * @param string $today
-     * @return array
-     */
     public function getSalaryPaymentDates(int $numberOfMonths, string $today): array
     {
         $date = \DateTime::createFromFormat('d.m.Y', $today);
@@ -48,22 +40,12 @@ class SalaryService implements SalaryServiceInterface
         return $salaryPaymentDates;
     }
 
-    /**
-     * @param int $month
-     * @param int $year
-     * @return string
-     */
     private function getPaymentMonth(int $month, int $year): string
     {
         $monthStart = mktime(0, 0, 0, $month, 1, $year);
         return date('m-Y', $monthStart);
     }
 
-    /**
-     * @param int $month
-     * @param int $year
-     * @return string
-     */
     private function getSalaryPaymentDate(int $month, int $year): string
     {
         $salaryPaymentDate = mktime(0, 0, 0, $month + 1, 1, $year) - self::SECONDS_IN_A_DAY;
