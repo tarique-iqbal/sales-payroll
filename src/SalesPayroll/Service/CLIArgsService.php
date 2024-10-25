@@ -2,7 +2,7 @@
 
 namespace SalesPayroll\Service;
 
-class CLIArgsService implements CLIArgsServiceInterface
+final class CLIArgsService implements CLIArgsServiceInterface
 {
     public function getArgs(): array
     {

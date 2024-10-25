@@ -11,13 +11,10 @@ use SalesPayroll\Service\CSVFileWriterService;
 use SalesPayroll\SalesPayrollApplication;
 use SalesPayroll\Exception\ExceptionHandler;
 
-class ContainerFactory
+final readonly class ContainerFactory
 {
-    private array $config;
-
-    public function __construct(array $config)
+    public function __construct(private array $config)
     {
-        $this->config = $config;
     }
 
     public function create(): Container
@@ -40,14 +37,14 @@ class ContainerFactory
             return new BonusService();
         };
 
-        $container['CSVFileWriterService'] = function ($c) {
+        $container['CSVFileWriterService'] = function (Container $c) {
             return new CSVFileWriterService(
                 $c['SalaryService'],
                 $c['BonusService']
             );
         };
 
-        $container['SalesPayrollApplication'] = function ($c) {
+        $container['SalesPayrollApplication'] = function (Container $c) {
             return new SalesPayrollApplication(
                 $c['ConfigService'],
                 $c['CLIArgsService'],
@@ -55,7 +52,7 @@ class ContainerFactory
             );
         };
 
-        $container['ExceptionHandler'] = function ($c) {
+        $container['ExceptionHandler'] = function (Container $c) {
             return new ExceptionHandler(
                 $c['ConfigService']
             );

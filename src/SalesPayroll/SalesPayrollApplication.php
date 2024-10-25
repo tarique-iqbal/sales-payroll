@@ -6,34 +6,21 @@ use Assert\Assert;
 use SalesPayroll\Service\FileWriterServiceInterface;
 use SalesPayroll\Service\ConfigServiceInterface;
 use SalesPayroll\Service\CLIArgsServiceInterface;
-use SalesPayroll\Exception\FileOpenException;
 use SalesPayroll\Utility\Utility;
 
-class SalesPayrollApplication
+final class SalesPayrollApplication
 {
-    const INPUT_SIZE = 1;
+    private const INPUT_SIZE = 1;
 
-    const NUMBER_OF_MONTHS = 12;
-
-    private ConfigServiceInterface $configService;
-
-    private CLIArgsServiceInterface $cliArgsService;
-
-    private FileWriterServiceInterface $csvFileWriterService;
+    private const NUMBER_OF_MONTHS = 12;
 
     public function __construct(
-        ConfigServiceInterface $configService,
-        CLIArgsServiceInterface $cliArgsService,
-        FileWriterServiceInterface $csvFileWriterService
+        private readonly ConfigServiceInterface $configService,
+        private readonly CLIArgsServiceInterface $cliArgsService,
+        private readonly FileWriterServiceInterface $csvFileWriterService
     ) {
-        $this->configService = $configService;
-        $this->cliArgsService = $cliArgsService;
-        $this->csvFileWriterService = $csvFileWriterService;
     }
 
-    /**
-     * @throws FileOpenException
-     */
     public function writeSalaryBonusPaymentDates(): void
     {
         $inputArgs = $this->cliArgsService->getArgs();
@@ -55,9 +42,6 @@ class SalesPayrollApplication
         }
     }
 
-    /**
-     * @throws FileOpenException
-     */
     private function writeCSVFile(string $fileName): void
     {
         $today = date('d.m.Y');

@@ -4,9 +4,10 @@ namespace SalesPayroll\Service;
 
 use SalesPayroll\Entity\Bonus;
 
-class BonusService implements BonusServiceInterface
+final class BonusService implements BonusServiceInterface
 {
     private const SECONDS_IN_A_DAY = 86400;
+
     private const MONTHS_IN_A_YEAR = 12;
 
     public function getBonusPaymentDates(int $numberOfMonths, string $today): array

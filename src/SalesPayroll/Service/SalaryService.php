@@ -4,7 +4,7 @@ namespace SalesPayroll\Service;
 
 use SalesPayroll\Entity\Salary;
 
-class SalaryService implements SalaryServiceInterface
+final class SalaryService implements SalaryServiceInterface
 {
     private const SECONDS_IN_A_DAY = 86400;
 

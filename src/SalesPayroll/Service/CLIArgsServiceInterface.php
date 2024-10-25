@@ -4,8 +4,5 @@ namespace SalesPayroll\Service;
 
 interface CLIArgsServiceInterface
 {
-    /**
-     * @return array
-     */
     public function getArgs(): array;
 }

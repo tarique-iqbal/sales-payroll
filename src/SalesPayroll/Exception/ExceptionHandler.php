@@ -4,13 +4,10 @@ namespace SalesPayroll\Exception;
 
 use SalesPayroll\Service\ConfigServiceInterface;
 
-class ExceptionHandler
+final readonly class ExceptionHandler
 {
-    private ConfigServiceInterface $configService;
-
-    public function __construct(ConfigServiceInterface $configService)
+    public function __construct(private ConfigServiceInterface $configService)
     {
-        $this->configService = $configService;
     }
 
     public function report(\Throwable $e): void
