@@ -11,7 +11,7 @@ use SalesPayroll\Service\ConfigService;
 use SalesPayroll\Service\CLIArgsService;
 use SalesPayroll\Service\CSVFileWriterService;
 use SalesPayroll\SalesPayrollApplication;
-use SalesPayroll\Exception\ExceptionHandler;
+use SalesPayroll\Handler\ExceptionHandler;
 
 class ContainerFactoryTest extends TestCase
 {

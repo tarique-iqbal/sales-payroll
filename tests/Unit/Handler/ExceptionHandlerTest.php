@@ -5,7 +5,7 @@ namespace SalesPayroll\Tests\Unit\Handler;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
-use SalesPayroll\Exception\ExceptionHandler;
+use SalesPayroll\Handler\ExceptionHandler;
 use SalesPayroll\Service\ConfigServiceInterface;
 
 class ExceptionHandlerTest extends TestCase
